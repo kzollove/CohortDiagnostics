@@ -66,6 +66,10 @@ getIncidenceRate <- function(connectionDetails = NULL,
   yearRange <-
     DatabaseConnector::querySql(connection, sql, snakeCaseToCamelCase = TRUE)
 
+  if (yearRange$endYear >= 9999) {
+    yearRange$endYear <- 9998
+  }
+  
   calendarYears <-
     dplyr::tibble(calendarYear = as.integer(seq(yearRange$startYear, yearRange$endYear, by = 1)))
   DatabaseConnector::insertTable(
